@@ -5,6 +5,9 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // GitHub Pages hosts this project under /SIMS/, while local/AI Studio
+    // previews are served from the origin root.
+    base: process.env.GITHUB_ACTIONS === 'true' ? '/SIMS/' : '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
