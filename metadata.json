@@ -1,0 +1,6 @@
+{
+  "name": "SimLife 3D: Open World Simulator",
+  "description": "A 3D life simulation game inspired by The Sims, featuring open-world exploration, character customization, home building, careers, and relationships.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
