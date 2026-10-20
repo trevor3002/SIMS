@@ -18,6 +18,34 @@
   </head>
   <body>
     <div id="root"></div>
+    <div id="startup-error" role="alert" style="display:none;position:fixed;inset:0;z-index:99999;overflow:auto;background:#0b1120;color:#f8fafc;padding:24px;font:14px/1.5 system-ui,sans-serif">
+      <h1 style="font-size:22px;margin:0 0 12px;color:#f87171">SimLife could not start</h1>
+      <p style="margin:0 0 12px">The page loaded, but the game hit an error. Copy the message below and send it to the developer.</p>
+      <pre id="startup-error-message" style="white-space:pre-wrap;overflow-wrap:anywhere;background:#111827;padding:14px;border-radius:8px"></pre>
+      <button onclick="location.reload()" style="margin-top:12px;padding:10px 14px;border-radius:8px;background:#10b981;color:#052e16;font-weight:700;border:0">Reload game</button>
+    </div>
+    <script>
+      (function () {
+        function showStartupError(message) {
+          var panel = document.getElementById('startup-error');
+          var output = document.getElementById('startup-error-message');
+          if (!panel || !output) return;
+          panel.style.display = 'block';
+          output.textContent = String(message || 'Unknown startup error');
+        }
+        window.addEventListener('error', function (event) {
+          var target = event.target;
+          if (target && target !== window && (target.tagName === 'SCRIPT' || target.tagName === 'LINK')) {
+            showStartupError('A game file failed to load: ' + (target.src || target.href || target.tagName));
+          } else {
+            showStartupError((event.message || 'JavaScript error') + (event.filename ? '\\n' + event.filename + ':' + event.lineno + ':' + event.colno : '') + (event.error && event.error.stack ? '\\n' + event.error.stack : ''));
+          }
+        }, true);
+        window.addEventListener('unhandledrejection', function (event) {
+          showStartupError('Unhandled promise rejection: ' + (event.reason && (event.reason.stack || event.reason.message) || event.reason || 'Unknown reason'));
+        });
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
